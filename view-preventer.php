@@ -55,7 +55,7 @@ register_activation_hook( __FILE__, 'activate_view_preventer' );
 register_deactivation_hook( __FILE__, 'deactivate_view_preventer' );
 
 add_filter( "wpp_update_views_count_value", function($views, $post_ID){
-	$localIP = getHostByName(getHostName());
+	$localIP = $_SERVER['REMOTE_ADDR'];
 	$localIpKey = bin2hex($localIP);
     if(get_post_meta( $post_ID, "vp_$localIpKey", true )){
         exit;
@@ -63,7 +63,7 @@ add_filter( "wpp_update_views_count_value", function($views, $post_ID){
 }, 10, 2 );
 
 add_action( "wpp_post_update_views", function($post_ID){
-	$localIP = getHostByName(getHostName());
+	$localIP = $_SERVER['REMOTE_ADDR'];
 	$localIpKey = bin2hex($localIP);
     update_post_meta($post_ID, "vp_$localIpKey", $localIP);
 }, 10, 1 );
